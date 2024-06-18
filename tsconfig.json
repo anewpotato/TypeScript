@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "target": "es6", // 컴파일 후 생성되는 js 버전.
+    "outDir": "js" // js 생성 경로.
+  }
+}

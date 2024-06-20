@@ -19,4 +19,8 @@
    9. any
    10. void
    11. never
+   12. union
+   13. intersection
+   14. enum (number enum / string enum / union enum / literal type / union + literal type)
 2. Type Alias
+3. Generic Type

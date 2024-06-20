@@ -113,3 +113,87 @@ function notingReturn() { }
 function throwError() {
     throw new Error("Never Reach End.");
 }
+function square(value, returnString = false) {
+    const squared = value * value;
+    if (returnString) {
+        return squared.toString();
+    }
+    return squared;
+}
+/* 해당 함수가 반환되어 저장되는 타입은 인자가 고정된 타입이 아니라면,
+   number일 수도 있고 string일 수도 있다.
+*/
+// const mystery: ??? = square(randomNumber, randomBoolean);
+/* | 기호를 사용해 리턴 타입을 충분히 표현 가능하다. */
+function unionFunction(value, returnString = false) {
+    const squared = value * value;
+    if (returnString) {
+        return squared.toString();
+    }
+    return squared;
+}
+function 이런것도되는유니온() {
+    return "";
+}
+/* enum */
+/* 가능한 경우의 수를 가지는 집합을 정의하는 타입. */
+/* 기본 숫자 열거형 자동 증가 방식으로 동작. */
+var Menu;
+(function (Menu) {
+    Menu[Menu["Pizza"] = 0] = "Pizza";
+    Menu[Menu["Chicken"] = 1] = "Chicken";
+    Menu[Menu["Pasta"] = 2] = "Pasta";
+})(Menu || (Menu = {}));
+/* 이런식으로 초기화도 가능. */
+var SameMenu;
+(function (SameMenu) {
+    SameMenu[SameMenu["Pizza"] = 3] = "Pizza";
+    SameMenu[SameMenu["Chicken"] = 4] = "Chicken";
+    SameMenu[SameMenu["Pasta"] = 7] = "Pasta";
+})(SameMenu || (SameMenu = {}));
+/* enum의 멤버는 enum 타입을 갖는다. */
+const menu = SameMenu.Chicken;
+/* 문자열 열거형은 자동 증가가 되지 않으므로 반드시 초기화가 필요. */
+/* 숫자형 열거형과 다르게 컴파일 코드에 값 -> 키의 역방향 매핑이 존재하지 않는다!? */
+var Direction;
+(function (Direction) {
+    Direction["East"] = "EAST";
+    Direction["West"] = "WEST";
+    Direction["South"] = "SOUTH";
+    Direction["North"] = "NORTH";
+})(Direction || (Direction = {}));
+/* 지금까지의 상수 멤버들과 다르게 런타임 시 값을 알 수 있는 멤버를
+   Computed Member라 하며, 해당 멤버 이후에 오는 멤버는 반드시 초기화가 되어야 한다는 점에 주의!!!
+*/
+function getAnswer() {
+    return 42;
+}
+var ComputedEnum;
+(function (ComputedEnum) {
+    ComputedEnum[ComputedEnum["Answer"] = getAnswer()] = "Answer";
+    ComputedEnum["Mistery"] = "aa";
+})(ComputedEnum || (ComputedEnum = {}));
+/* 컴파일 시 아래 코드는 이렇게 변한다.
+   console.log(2);
+   열거형에 대한 어떠한 정보도 남지 않고 상수값으로 대체.
+*/
+console.log(2 /* ConstEnum.B */);
+/**
+ * enum에 속하는 모든 멤버가 다음 3가지 중 1가지에 해당하는 경우 union enum이라 한다.
+ * 1. 암시적으로 초기화 된 값.
+ * 2. 문자열 리터럴.
+ * 3. 숫자 리터럴.
+ */
+/* union enum */
+var ShapeKind;
+(function (ShapeKind) {
+    ShapeKind[ShapeKind["Circle"] = 0] = "Circle";
+    ShapeKind[ShapeKind["Triangle"] = 3] = "Triangle";
+    ShapeKind[ShapeKind["Square"] = 4] = "Square";
+})(ShapeKind || (ShapeKind = {}));
+/* Typescript는 숫자, 문자열, 불리언 값을 타입으로 사용 가능한 literal type을 지원.
+   literal type은 단 1개의 값만을 가진다.
+*/
+const answer = 42;
+const east = "EAST";
+// const center: UnionLiteral = 'CENTER'; // error TS2322: Type '"CENTER"' is not assignable to type 'Direction'.

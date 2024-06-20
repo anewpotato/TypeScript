@@ -154,3 +154,162 @@ function notingReturn(): void {}
 function throwError(): never {
   throw new Error("Never Reach End.");
 }
+
+/* union */
+/* 어떤 타입이 가질 수 있는 경우의 수를 나열할 때 사용. */
+
+/* 함수 오버로딩을 통해 함수 구현. */
+function square(value: number, returnString: boolean): number;
+function square(value: number, returnString: boolean): string;
+function square(value, returnString = false) {
+  const squared = value * value;
+  if (returnString) {
+    return squared.toString();
+  }
+  return squared;
+}
+/* 해당 함수가 반환되어 저장되는 타입은 인자가 고정된 타입이 아니라면,  
+   number일 수도 있고 string일 수도 있다.
+*/
+// const mystery: ??? = square(randomNumber, randomBoolean);
+
+/* | 기호를 사용해 리턴 타입을 충분히 표현 가능하다. */
+function unionFunction(
+  value: number,
+  returnString: boolean = false
+): string | number {
+  const squared = value * value;
+  if (returnString) {
+    return squared.toString();
+  }
+  return squared;
+}
+// const stringOrNumber: string | number = square(randomNumber, randomBoolean);
+type unionGroup = string | number | any | never;
+function 이런것도되는유니온(a: string, b: number): unionGroup;
+function 이런것도되는유니온() {
+  return "";
+}
+
+/* intersection */
+/* 여러 경우에 모두 해당하는 타입. */
+type Person = {
+  name: string;
+  age: number;
+};
+
+type Programmer = {
+  role: string;
+};
+
+/* 두 가지 모두 해당하는 타입을 재정의하면 바보같은 짓!! */
+type DontDoThat = {
+  name: string;
+  age: number;
+  role: string;
+};
+
+/* Person이면서 Programmer에 해당 하는 경우? intersection 사용. */
+type PersonProgrammer = Person & Programmer;
+
+/* enum */
+/* 가능한 경우의 수를 가지는 집합을 정의하는 타입. */
+/* 기본 숫자 열거형 자동 증가 방식으로 동작. */
+enum Menu {
+  Pizza,
+  Chicken,
+  Pasta,
+}
+/* 이런식으로 초기화도 가능. */
+enum SameMenu {
+  Pizza = 3,
+  Chicken, // 3에서 증가, 4
+  Pasta = 7,
+}
+/* enum의 멤버는 enum 타입을 갖는다. */
+const menu: SameMenu = SameMenu.Chicken;
+
+/* 문자열 열거형은 자동 증가가 되지 않으므로 반드시 초기화가 필요. */
+/* 숫자형 열거형과 다르게 컴파일 코드에 값 -> 키의 역방향 매핑이 존재하지 않는다!? */
+enum Direction {
+  East = "EAST",
+  West = "WEST",
+  South = "SOUTH",
+  North = "NORTH",
+}
+
+/* 지금까지의 상수 멤버들과 다르게 런타임 시 값을 알 수 있는 멤버를 
+   Computed Member라 하며, 해당 멤버 이후에 오는 멤버는 반드시 초기화가 되어야 한다는 점에 주의!!!
+*/
+function getAnswer() {
+  return 42;
+}
+
+enum ComputedEnum {
+  Answer = getAnswer(),
+  Mistery = "aa",
+}
+
+/* 숫자형 열거형의 경우, 아래와 같이 js로 컴파일된다.
+var Direction;
+(function (Direction) {
+    Direction[Direction["East"] = 0] = "East";
+    Direction[Direction["West"] = 1] = "West";
+    Direction[Direction["South"] = 2] = "South";
+    Direction[Direction["North"] = 3] = "North";
+})(Direction || (Direction = {}));
+var east = Direction.East;
+
+키 -> 값 / 값 -> 키 매핑이 정의되는데, 이 때 객체 속성에 접근이 발생하므로 오버헤드가 발생.
+이를 방지해 성능 향상을 할 수 있다. 아래 처럼.
+*/
+const enum ConstEnum {
+  A,
+  B = 2,
+  C = B * 2,
+  D = -C,
+}
+/* 컴파일 시 아래 코드는 이렇게 변한다.
+   console.log(2);
+   열거형에 대한 어떠한 정보도 남지 않고 상수값으로 대체.
+*/
+console.log(ConstEnum.B);
+
+/**
+ * enum에 속하는 모든 멤버가 다음 3가지 중 1가지에 해당하는 경우 union enum이라 한다.
+ * 1. 암시적으로 초기화 된 값.
+ * 2. 문자열 리터럴.
+ * 3. 숫자 리터럴.
+ */
+/* union enum */
+enum ShapeKind {
+  Circle, // 1.
+  Triangle = 3, // 3.
+  Square, // 1.
+}
+/* union enum에 속하는 멤버는 값인 동시에 타입이 될 수 있다. */
+type Circle = {
+  kind: ShapeKind.Circle; // 타입으로 활용.
+  radius: number;
+};
+type Triangle = {
+  kind: ShapeKind.Triangle; // 타입으로 활용.
+  maxAngle: number;
+};
+type Square = {
+  kind: ShapeKind.Square; // 타입으로 활용.
+  maxLength: number;
+};
+type Shape = Circle | Triangle | Square;
+
+/* Typescript는 숫자, 문자열, 불리언 값을 타입으로 사용 가능한 literal type을 지원.
+   literal type은 단 1개의 값만을 가진다.
+*/
+
+const answer: 42 = 42;
+// const wrongAnser:42 = 22;
+
+/* union + literal type. */
+type UnionLiteral = "EAST" | "WEST" | "SOUTH" | "NORTH";
+const east: UnionLiteral = "EAST";
+// const center: UnionLiteral = 'CENTER'; // error TS2322: Type '"CENTER"' is not assignable to type 'Direction'.

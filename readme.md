@@ -5,8 +5,6 @@
 
 ## 1. Typescript 기본 타입
 
-### 2024.06.18
-
 1. Default Type
    1. boolean
    2. number

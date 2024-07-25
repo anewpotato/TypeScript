@@ -6,19 +6,26 @@
 ## 1. Typescript 기본 타입
 
 1. Default Type
-   1. boolean
-   2. number
-   3. string
-   4. null, undefined
-   5. array
-   6. tuple
-   7. object
-   8. function
-   9. any
-   10. void
-   11. never
-   12. union
-   13. intersection
-   14. enum (number enum / string enum / union enum / literal type / union + literal type)
+   - boolean
+   - number
+   - string
+   - null, undefined
+   - array
+   - tuple
+   - object
+   - function
+   - any
+   - void
+   - never
+   - union
+   - intersection
+   - enum (number enum / string enum / union enum / literal type / union + literal type)
 2. Type Alias
 3. Generic Type
+
+## 2. Interface와 Class
+
+1. Interface
+   - 타입 / 함수 타입 interface.
+   - indexable interface.
+   - extends

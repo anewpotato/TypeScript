@@ -38,3 +38,12 @@
    - access modifier
    - accessor
    - abstract class
+
+## 3. Type의 호환성
+
+1. default type
+2. object type
+3. function type
+4. class type
+5. generic type
+6. enum type

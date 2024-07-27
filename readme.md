@@ -26,6 +26,15 @@
 ## 2. Interface와 Class
 
 1. Interface
+
    - 타입 / 함수 타입 interface.
    - indexable interface.
    - extends
+
+2. Class
+   - 멤버 변수, 메소드 및 생성자.
+   - extends
+   - static
+   - access modifier
+   - accessor
+   - abstract class

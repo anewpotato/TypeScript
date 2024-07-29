@@ -47,3 +47,10 @@
 4. class type
 5. generic type
 6. enum type
+
+## 4. Typescript 심화
+
+1. 타입 좁히기
+2. 타입 추론
+3. 타입 단언
+4. 서로소 유니온 타입을 이용한 패턴.
